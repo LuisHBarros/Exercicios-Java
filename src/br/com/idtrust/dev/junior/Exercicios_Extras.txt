@@ -1,0 +1,82 @@
+1 - Monte a estrutura condicional if/else para as regras abaixo e no final o que será mostrado para cada valores:
+Regras:
+- homens a partir de 65 anos, escrever APOSENTADO;
+- mulheres a partir de 60 anos, escrever APOSENTADA;
+- pessoas entre 13 que 18 anos, escrever ADOLESCENTE;
+- pessoas menores que 13 anos, escrever CRIANÇAS;
+- todos os outros, escrever ADULTO;
+Lista de valores para o teste: sexo;idade
+
+a) masculino;74
+b) feminino;4
+c) feminino;13
+d) masculino;60
+e) masculino;19
+f) feminino;60
+
+________________________________________________________________________________
+R-> Considerando a seguinte classe Pessoa:
+
+        public static class Pessoa{
+            private String gender;
+            private Integer age;
+
+            public Pessoa(String gender, Integer age){
+                this.age = age;
+                this.gender = gender;
+            }
+            public String getGender(){
+                return this.gender;
+            }
+            public Integer getAge(){
+                return this.age;
+            }
+
+        }
+a condicional pedida ficaria assim:
+                if(p.getGender() == "masculino" && p.getAge() >= 65){
+                    System.out.println("APOSENTADO");
+                }
+                else if(p.getGender() == "feminino" && p.getAge() >=60){
+                    System.out.println("APOSENTADA");
+                }
+                else if(p.getAge() >= 13 && p.getAge() <= 18){
+                    System.out.println("ADOLESCENTE");
+                }
+                else if(p.getAge() < 13){
+                    System.out.println("CRIANÇAS");
+                }
+                else{
+                    System.out.println("ADULTO");
+                }
+
+Desse modo, o resultado das alternativas é:
+A) APOSENTADO
+B) CRIANÇAS
+C) ADOLESCENTE
+D) ADULTO
+E) ADULTO
+F) APOSENTADA
+________________________________________________________________________________
+
+2 - De acordo com o algoritmo a seguir, escolha uma das alternativas abaixo.
+contador :=  3
+soma  := 57
+for (contador <= 10 ) {
+	if (contador < 5 || contador == 8 ) {
+		soma := soma - contador
+    } else {
+            soma = soma + contador
+    }
+	contador++
+}
+print(“O valor da soma é ” + soma)
+a) O valor da soma é 57
+b) O valor da soma é 69
+c) O valor da soma é 79
+d) O valor da soma é 93
+
+________________________________________________________________________________
+A "soma" dentro do for ficara assim:
+    57 - 3 - 4 + 5 + 6 + 7 - 8 + 9 + 10, o que resulta em 79.
+    Logo, a alternativa certa é a letra c).
