@@ -4,6 +4,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class Main {
@@ -14,7 +15,7 @@ public class Main {
         System.out.println("");
         System.out.println("1 - Print a soma agrupando as mesmas datas de vencimentos");
         //-------------------------------------------------------------------------
-        HashMap<LocalDate, BigDecimal> vencimento = new HashMap<>();
+        Map<LocalDate, BigDecimal> vencimento = new HashMap<>();
         for(Recebivel r : RECEBIVEIS){
             if(! vencimento.containsKey(r.dataVencimento)){
                 vencimento.put(r.dataVencimento, r.valor);
@@ -23,7 +24,9 @@ public class Main {
                 vencimento.put(r.dataVencimento, vencimento.get(r.dataVencimento).add(r.valor));
             }
         }
-        System.out.println(vencimento);
+        for(Map.Entry<LocalDate, BigDecimal> v : vencimento.entrySet()){
+            System.out.println("Data de vencimento: " + v.getKey() +", soma: " + v.getValue());
+        }
 
         //-----------------------------------------------------------------
 
@@ -32,10 +35,10 @@ public class Main {
         BigDecimal vencidos = new BigDecimal(0);
         for(Recebivel r : RECEBIVEIS){
            if(r.dataVencimento.isBefore(LocalDate.now())){
+               System.out.println("Venceu, codigo " + r.codigo + ", data de vencimento = " + r.dataVencimento);
                vencidos = vencidos.add(r.valor);
            }
         }
-        System.out.println("Soma dos Ja vencidos: " + vencidos);
         //-----------------------------------------------------------------
 
         System.out.println("3 - Formate para moeda Real o valor do recebivel com vencimento 25/07/2023");
@@ -51,9 +54,14 @@ public class Main {
         System.out
                 .println("4 - Print o prazo em dias entre emissao e vencimento do recebivel com vencimento 12/10/2023");
         //-----------------------------------------------------------------
+        //Para encontrar a diferença total em dias,
+        // usei a biblioteca "java.time.temporal.ChronoUnit", em vez de java.time.Period,
+        // que me daria apenas o prazo dos dias, sem contabilizar os meses de diferença.
         for(Recebivel r : RECEBIVEIS){
-            if(Objects.equals(r.dataVencimento, LocalDate.of(2023, 10, 12))){
-                System.out.println("Prazo de dias entre a emissao e o vencimento desse recebivel: " + r.dataEmissao.until(r.dataVencimento).getDays() );
+            LocalDate vencimento_procurado = LocalDate.of(2023, 10, 12);
+            if(r.dataVencimento.equals(vencimento_procurado)){
+                System.out.println("Prazo de dias entre a emissao e o vencimento desse recebivel: " + ChronoUnit.DAYS.between(r.dataEmissao, r.dataVencimento));
+                break;
             }
         }
         //-----------------------------------------------------------------
@@ -69,6 +77,8 @@ public class Main {
 
         System.out.println("6 - Formate a data 2023-06-25 do recebivel para o formato dd/MM/yyyy");
         //-----------------------------------------------------------------
+        //O código está implementado, porém não há nenhuma data, nem de emissão,
+        // nem de vencimento, igual a data informada no enunciado.
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         for(Recebivel r: RECEBIVEIS){
             if(r.dataVencimento.equals(LocalDate.of(2023, 6, 25))){
