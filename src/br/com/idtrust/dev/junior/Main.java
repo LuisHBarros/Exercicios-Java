@@ -58,8 +58,7 @@ public class Main {
         // usei a biblioteca "java.time.temporal.ChronoUnit", em vez de java.time.Period,
         // que me daria apenas o prazo dos dias, sem contabilizar os meses de diferença.
         for(Recebivel r : RECEBIVEIS){
-            LocalDate vencimento_procurado = LocalDate.of(2023, 10, 12);
-            if(r.dataVencimento.equals(vencimento_procurado)){
+            if(r.dataVencimento.equals(LocalDate.of(2023, 10, 12))){
                 System.out.println("Prazo de dias entre a emissao e o vencimento desse recebivel: " + ChronoUnit.DAYS.between(r.dataEmissao, r.dataVencimento));
                 break;
             }
@@ -110,17 +109,15 @@ public class Main {
         //-----------------------------------------------------------------
         BigDecimal sum = new BigDecimal("0");
         for(BigDecimal v : valores){
-            if(v.compareTo(new BigDecimal("100.0")) == 0 && v.compareTo(new BigDecimal("100.0")) < 0){
-                //É uma condição que nunca será satisfeita.
-                System.out.println("O resultado de " + v + " + 5.90 eh igual a " + v.add(new BigDecimal("5.90")));
-                v = v.add(new BigDecimal("5.90"));
-                sum = sum.add(v);
-
-            } else if (v.compareTo(new BigDecimal("20.0")) < 0) {
+            if (v.compareTo(new BigDecimal("20.0")) < 0) {
                 System.out.println("O resultado de " + v + " + 15.00 eh igual a " + v.add(new BigDecimal("15.00")));
                 v = v.add(new BigDecimal("15.00"));
                 sum = sum.add(v);
 
+            }else if(v.compareTo(new BigDecimal("100.0")) == 0 || v.compareTo(new BigDecimal("100.0")) < 0){
+                System.out.println("O resultado de " + v + " + 5.90 eh igual a " + v.add(new BigDecimal("5.90")));
+                v = v.add(new BigDecimal("5.90"));
+                sum = sum.add(v);
             } else if (v.compareTo(new BigDecimal("150.00")) == 0){
                 System.out.println("O resultado de " + v + " + 3.55 eh igual a " + v.add(new BigDecimal("3.55")));
                 v = v.add(new BigDecimal("3.55"));
