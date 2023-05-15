@@ -6,6 +6,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     private static final Set<Recebivel> RECEBIVEIS;
@@ -43,26 +44,41 @@ public class Main {
 
         System.out.println("3 - Formate para moeda Real o valor do recebivel com vencimento 25/07/2023");
         //-----------------------------------------------------------------
+//          RESOLUCAO ANTIGA:
+//        NumberFormat real = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+//        for(Recebivel r : RECEBIVEIS){
+//            if(r.dataVencimento.equals(LocalDate.of(2023, 7, 25))){
+//                System.out.println("Valor recebivel formatado: "+ real.format(r.valor));
+//            }
+//        }
         NumberFormat real = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        for(Recebivel r : RECEBIVEIS){
-            if(r.dataVencimento.equals(LocalDate.of(2023, 7, 25))){
-                System.out.println("Valor recebivel formatado: "+ real.format(r.valor));
-            }
+        Set<Recebivel> recebiveis_a_formatar = new HashSet<>();
+        recebiveis_a_formatar = RECEBIVEIS.stream().filter(recebivel -> recebivel.dataVencimento == LocalDate.of(2023,7,25)).collect(Collectors.toSet());
+        for(Recebivel r : recebiveis_a_formatar){
+            System.out.println("Valor recebivel formatado: "+ real.format(r.valor));
         }
+        recebiveis_a_formatar.clear();
         //-----------------------------------------------------------------
 
         System.out
                 .println("4 - Print o prazo em dias entre emissao e vencimento do recebivel com vencimento 12/10/2023");
         //-----------------------------------------------------------------
         //Para encontrar a diferença total em dias,
-        // usei a biblioteca "java.time.temporal.ChronoUnit", em vez de java.time.Period,
-        // que me daria apenas o prazo dos dias, sem contabilizar os meses de diferença.
-        for(Recebivel r : RECEBIVEIS){
-            if(r.dataVencimento.equals(LocalDate.of(2023, 10, 12))){
-                System.out.println("Prazo de dias entre a emissao e o vencimento desse recebivel: " + ChronoUnit.DAYS.between(r.dataEmissao, r.dataVencimento));
-                break;
-            }
+        // usei a biblioteca "java.time.temporal.ChronoUnit", em vez de java.time.Period.
+        // A java.time.Period me daria apenas o prazo dos dias, sem contabilizar os meses de diferença.
+
+        //RESOLUCAO ANTIGA:
+//        for(Recebivel r : RECEBIVEIS){
+//            if(r.dataVencimento.equals(LocalDate.of(2023, 10, 12))){
+//                System.out.println("Prazo de dias entre a emissao e o vencimento desse recebivel: " + ChronoUnit.DAYS.between(r.dataEmissao, r.dataVencimento));
+//            }
+//        }
+        LocalDate data_a_analisar = LocalDate.of(2023, 10, 12);
+        recebiveis_a_formatar = RECEBIVEIS.stream().filter(recebivel -> recebivel.dataVencimento.equals(data_a_analisar) || recebivel.dataEmissao.equals(data_a_analisar)).collect(Collectors.toSet());
+        for(Recebivel r : recebiveis_a_formatar){
+            System.out.println("Prazo de dias entre a emissao e o vencimento desse recebivel: " + ChronoUnit.DAYS.between(r.dataEmissao, r.dataVencimento));
         }
+        recebiveis_a_formatar.clear();
         //-----------------------------------------------------------------
 
         System.out.println("5 - Print a concatenação de todos os campos do recebivel separando por ;");
