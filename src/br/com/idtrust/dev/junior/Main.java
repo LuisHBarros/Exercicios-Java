@@ -54,6 +54,7 @@ public class Main {
         NumberFormat real = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         Set<Recebivel> recebiveis_a_formatar = new HashSet<>();
         recebiveis_a_formatar = RECEBIVEIS.stream().filter(recebivel -> recebivel.dataVencimento == LocalDate.of(2023,7,25)).collect(Collectors.toSet());
+        //Continuei utulizando a funcao for, pois em um cenário diferente, a busca poderia encontrar mais de um resultado.
         for(Recebivel r : recebiveis_a_formatar){
             System.out.println("Valor recebivel formatado: "+ real.format(r.valor));
         }
@@ -75,6 +76,7 @@ public class Main {
 //        }
         LocalDate data_a_analisar = LocalDate.of(2023, 10, 12);
         recebiveis_a_formatar = RECEBIVEIS.stream().filter(recebivel -> recebivel.dataVencimento.equals(data_a_analisar) || recebivel.dataEmissao.equals(data_a_analisar)).collect(Collectors.toSet());
+        //Continuei utulizando a funcao for, pois em um cenário diferente, a busca poderia encontrar mais de um resultado.
         for(Recebivel r : recebiveis_a_formatar){
             System.out.println("Prazo de dias entre a emissao e o vencimento desse recebivel: " + ChronoUnit.DAYS.between(r.dataEmissao, r.dataVencimento));
         }
